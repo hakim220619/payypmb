@@ -43,7 +43,6 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
   const [kpsReceiver, setKpsReceiver] = useState('')
   const [nick_name, setNickName] = useState('')
   const [gender, setGender] = useState('')
-  const [nik, setNik] = useState(dataAll.nik)
   const [birth_place_date, setBirthPlaceDate] = useState('')
   const [school, setSchool] = useState('')
   const [nisn, setNisn] = useState('')
@@ -55,7 +54,6 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
   const [dusun, setDusun] = useState('')
   const [kecamatan, setKecamatan] = useState('')
   const [transportation, setTransportation] = useState('')
-  const [phone, setPhone] = useState(dataAll.phone)
   const [birth_date] = useState(dataAll.date_of_birth)
   const [kpsNumber, setKpsNumber] = useState('')
 
@@ -104,6 +102,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
   const [lastSchoolName, setLastSchoolName] = useState('')
   const [graduationYearFromLastSchool, setGraduationYearFromLastSchool] = useState('')
   const [reportCard, setReportCard] = useState(null) // For file upload
+  console.log(reportCard)
 
   // Options for Pendidikan Terakhir (Last Education)
 
@@ -117,18 +116,6 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
 
   const [openDialog, setOpenDialog] = useState(false)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  function formatDate(dateString: any) {
-    const date = new Date(dateString)
-    const day = String(date.getDate()).padStart(2, '0')
-    const month = String(date.getMonth() + 1).padStart(2, '0') // Bulan mulai dari 0 di JavaScript
-    const year = date.getFullYear()
-
-    return `${day}-${month}-${year}`
-  }
-
-  const handleChange = (event: any) => {
-    setKpsReceiver(event.target.value)
-  }
 
   useEffect(() => {
     axiosConfig
@@ -253,21 +240,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
     { value: 'smp', label: 'SMP' },
     { value: 'sma', label: 'SMA' }
   ]
-  const religionOptions = [
-    { value: 'islam', label: 'Islam' },
-    { value: 'kristen', label: 'Kristen' },
-    { value: 'hindu', label: 'Hindu' },
-    { value: 'buddha', label: 'Buddha' },
-    { value: 'lainnya', label: 'Lainnya' }
-  ]
 
-  const motherJobOptions = [
-    { value: 'wiraswasta', label: 'Wiraswasta' },
-    { value: 'pegawai_negeri', label: 'Pegawai Negeri' },
-    { value: 'karyawan_swasta', label: 'Karyawan Swasta' },
-    { value: 'petani', label: 'Petani' },
-    { value: 'lainnya', label: 'Lainnya' }
-  ]
   const JobOptions = [
     { value: 'tidak_bekerja', label: 'Tidak Bekerja' },
     { value: 'nelayan', label: 'Nelayan' },
@@ -317,16 +290,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
     { value: 'pasca_sarjana', label: 'Pasca Sarjana' },
     { value: 'lainnya', label: 'Lainnya' }
   ]
-  const transportasi = [
-    { value: 'Sepeda Motor', label: 'Sepeda Motor' },
-    { value: 'Mobil', label: 'Mobil' },
-    { value: 'Sepeda', label: 'Sepeda' },
-    { value: 'Bus', label: 'Bus' },
-    { value: 'Kereta', label: 'Kereta' },
-    { value: 'Pesawat', label: 'Pesawat' },
-    { value: 'Kapal', label: 'Kapal' },
-    { value: 'Lainnya', label: 'Lainnya' }
-  ]
+
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
@@ -340,7 +304,6 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
     formData.append('kpsReceiver', kpsReceiver)
     formData.append('nick_name', nick_name)
     formData.append('gender', gender)
-    formData.append('nik', nik)
     formData.append('birth_place_date', birth_place_date)
     formData.append('school', school)
     formData.append('nisn', nisn)
@@ -435,23 +398,9 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
     setIsUpdate(false) // Hide the Update button
   }
 
-  const formatRupiah = (value: string) => {
-    const numberString = value.replace(/[^,\d]/g, '').toString()
-    const split = numberString.split(',')
-    const sisa = split[0].length % 3
-    let rupiah = split[0].substr(0, sisa)
-    const ribuan = split[0].substr(sisa).match(/\d{3}/gi)
-
-    if (ribuan) {
-      const separator = sisa ? '.' : ''
-      rupiah += separator + ribuan.join('.')
-    }
-
-    rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah
-
-    return 'Rp ' + rupiah
+  const handleChange = (event: any) => {
+    setKpsReceiver(event.target.value)
   }
-
   const renderUploadedFile = (file: File | null) => {
     const existingFilePath = ''
 
@@ -708,7 +657,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                       value={fatherBirthYear}
                       onChange={e => {
                         const value = e.target.value
-                        // Pastikan hanya angka yang diterima dan panjang maksimal 4 karakter
+
                         const numericValue = value.replace(/\D/g, '') // Menghapus semua non-digit (huruf, karakter lain)
                         if (numericValue.length <= 4) {
                           setFatherBirthYear(numericValue) // Set nilai jika valid
@@ -829,7 +778,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                       value={motherBirthYear}
                       onChange={e => {
                         const value = e.target.value
-                        // Pastikan hanya angka yang diterima dan panjang maksimal 4 karakter
+
                         const numericValue = value.replace(/\D/g, '') // Menghapus semua non-digit (huruf, karakter lain)
                         if (numericValue.length <= 4) {
                           setMotherBirthYear(numericValue) // Set nilai jika valid
@@ -953,7 +902,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                       value={guardianBirthYear}
                       onChange={e => {
                         const value = e.target.value
-                        // Pastikan hanya angka yang diterima dan panjang maksimal 4 karakter
+
                         const numericValue = value.replace(/\D/g, '') // Menghapus semua non-digit (huruf, karakter lain)
                         if (numericValue.length <= 4) {
                           setGuardianBirthYear(numericValue) // Set nilai jika valid

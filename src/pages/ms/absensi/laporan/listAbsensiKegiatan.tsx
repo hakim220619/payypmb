@@ -7,7 +7,6 @@ import {
   Tooltip,
   Dialog,
   DialogTitle,
-  Button,
   DialogContent,
   IconButton
 } from '@mui/material'
@@ -116,7 +115,6 @@ const ListAbsensiKegiatan = ({
   const theme = useTheme()
   const isDarkMode = (theme as any).palette.mode === 'dark'
   const [openPdfPreview, setOpenPdfPreview] = useState(false)
-  const [openDetailDialog, setOpenDetailDialog] = useState(false) // State for detail dialog
   const [pdfUrl, setPdfUrl] = useState<string | null>(null)
   const [loadingPDF, setLoadingPdf] = useState(false)
 
@@ -245,8 +243,8 @@ const ListAbsensiKegiatan = ({
             const morningStatus = item[`day_${i + 1}_M`] || '-'
             const afternoonStatus = item[`day_${i + 1}_K`] || '-'
 
-            const { icon: morningIcon, statusText: morningStatusText } = getStatus(morningStatus)
-            const { icon: afternoonIcon, statusText: afternoonStatusText } = getStatus(afternoonStatus)
+            const { statusText: morningStatusText } = getStatus(morningStatus)
+            const { statusText: afternoonStatusText } = getStatus(afternoonStatus)
 
             return `${morningStatusText}\n${afternoonStatusText}`
           })

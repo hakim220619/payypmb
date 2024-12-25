@@ -42,6 +42,7 @@ const FormValidationSchema = () => {
   const [activities, setActivities] = useState<any[]>([])
   const [subjects, setSubjects] = useState<any[]>([])
   const [filteredSubjects, setFilteredSubjects] = useState<any[]>([])
+  console.log(token)
 
   // Fetch class details
   useEffect(() => {
@@ -89,6 +90,7 @@ const FormValidationSchema = () => {
 
       if (!schoolId) {
         toast.error('School ID is missing')
+
         return
       }
 

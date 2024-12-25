@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button, CircularProgress } from '@mui/material'
 import Box from '@mui/material/Box'
 import Icon from 'src/@core/components/icon'
-// ** Custom Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'
 
 interface TableHeaderProps {

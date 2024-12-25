@@ -1,6 +1,5 @@
 // ** Custom Component Imports
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
-import CardStatsVertical from 'src/pages/ms/absensi/dashboard/cardVertical'
 
 import { useState, useEffect, useCallback } from 'react'
 import {
