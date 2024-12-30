@@ -25,26 +25,26 @@ const TabAccount = () => {
 
   const [fullName, setFullName] = useState<string | null>('')
   const [kpsReceiver, setKpsReceiver] = useState('')
-  console.log(kpsReceiver)
 
-  const [nick_name, setNickName] = useState('')
-  const [gender, setGender] = useState('')
-  const [nik, setNik] = useState('')
-  const [birth_place_date, setBirthPlaceDate] = useState('')
-  const [school, setSchool] = useState('')
+  // const [nick_name, setNickName] = useState('')
+  // const [gender, setGender] = useState('')
+  // const [nik, setNik] = useState('')
+  // const [birth_place_date, setBirthPlaceDate] = useState('')
+  // const [school, setSchool] = useState('')
   const [nisn, setNisn] = useState('')
   const [birth_cert_no, setBirthCertNo] = useState('')
-  const [religion, setReligion] = useState('')
-  const [address, setAddress] = useState('')
+  
+  // const [religion, setReligion] = useState('')
+  // const [address, setAddress] = useState('')
   const [rt, setRt] = useState('')
   const [rw, setRw] = useState('')
   const [dusun, setDusun] = useState('')
   const [kecamatan, setKecamatan] = useState('')
-  const [transportation, setTransportation] = useState('')
+
+  // const [transportation, setTransportation] = useState('')
   const [phone, setPhone] = useState('')
   const [birth_date, setDateOfBirth] = useState('')
   const [kpsNumber, setKpsNumber] = useState('')
-  console.log(kpsNumber)
 
   const [fatherName, setFatherName] = useState('')
   const [fatherNik, setFatherNik] = useState('')
@@ -82,8 +82,24 @@ const TabAccount = () => {
   const [kartuKeluarga, setKartuKeluarga] = useState<File | null>(null)
 
   const [akteLahir, setAkteLahir] = useState<File>()
+
   const [ktpOrangtua, setKtpOrangtua] = useState<File>()
+  console.log(ktpOrangtua)
+
   const [ijasah, setIjasah] = useState<File>()
+  const [rapor, setRapor] = useState<File>()
+  const [passFotoSiswa, setPassFotoSiswa] = useState<File>()
+
+  const [registrantType, setRegistrantType] = useState('')
+  const [placement, setPlacement] = useState('')
+  const [lastEducation, setLastEducation] = useState('')
+  const [graduationYear, setGraduationYear] = useState('')
+  const [schoolOrigin, setSchoolOrigin] = useState('')
+  const [continuedStudy, setContinuedStudy] = useState('')
+
+  const [lastClass, setLastClass] = useState('')
+  const [lastSchoolName, setLastSchoolName] = useState('')
+  const [graduationYearFromLastSchool, setGraduationYearFromLastSchool] = useState('')
 
   const [openDialog, setOpenDialog] = useState(false)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -96,27 +112,29 @@ const TabAccount = () => {
         { headers: { Accept: 'application/json', Authorization: `Bearer ${storedToken}` } }
       )
       .then(response => {
-        console.log(response.data)
-
         const {
           full_name,
-          nick_name,
-          nik,
-          gender,
+
+          // nick_name,
+          // nik,
+          // gender,
           phone,
           email,
           date_of_birth,
-          birth_place_date,
-          school,
+
+          // birth_place_date,
+          // school,
           nisn,
           birth_cert_no,
-          religion,
-          address,
+
+          // religion,
+          // address,
           rt,
           rw,
           dusun,
           kecamatan,
-          transportation,
+
+          // transportation,
           kps_receiver,
           kps_number,
           father_name,
@@ -149,27 +167,42 @@ const TabAccount = () => {
           kartu_keluarga,
           akte_lahir,
           ktp_orangtua,
-          ijasah
+          ijasah,
+          rapor,
+          passFotoSiswa,
+          registrantType,
+          placement,
+          lastEducation,
+          graduationYear,
+          schoolOrigin,
+          continuedStudy,
+          lastClass,
+          lastSchoolName,
+          graduationYearFromLastSchool
         } = response.data
 
         setFullName(full_name)
-        setNickName(nick_name)
-        setGender(gender)
-        setNik(nik)
+
+        // setNickName(nick_name)
+        // setGender(gender)
+        // setNik(nik)
         setPhone(phone)
         setEmail(email)
         setDateOfBirth(date_of_birth)
-        setBirthPlaceDate(birth_place_date)
-        setSchool(school)
+
+        // setBirthPlaceDate(birth_place_date)
+        // setSchool(school)
         setNisn(nisn)
         setBirthCertNo(birth_cert_no)
-        setReligion(religion)
-        setAddress(address)
+
+        // setReligion(religion)
+        // setAddress(address)
         setRt(rt)
         setRw(rw)
         setDusun(dusun)
         setKecamatan(kecamatan)
-        setTransportation(transportation)
+
+        // setTransportation(transportation)
         setKpsReceiver(kps_receiver)
         setKpsNumber(kps_number)
 
@@ -211,6 +244,18 @@ const TabAccount = () => {
         setAkteLahir(akte_lahir)
         setKtpOrangtua(ktp_orangtua)
         setIjasah(ijasah)
+
+        setRapor(rapor)
+        setPassFotoSiswa(passFotoSiswa)
+        setRegistrantType(registrantType)
+        setPlacement(placement)
+        setLastEducation(lastEducation)
+        setGraduationYear(graduationYear)
+        setSchoolOrigin(schoolOrigin)
+        setContinuedStudy(continuedStudy)
+        setLastClass(lastClass)
+        setLastSchoolName(lastSchoolName)
+        setGraduationYearFromLastSchool(graduationYearFromLastSchool)
       })
       .catch(error => {
         console.error('Error fetching details:', error)
@@ -286,7 +331,7 @@ const TabAccount = () => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <CustomTextField
                     fullWidth
                     label={<span>Nama Panggilan</span>}
@@ -295,6 +340,9 @@ const TabAccount = () => {
                     value={nick_name}
                     onChange={e => setNickName(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -306,6 +354,9 @@ const TabAccount = () => {
                     value={gender}
                     onChange={e => setGender(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -316,10 +367,13 @@ const TabAccount = () => {
                     value={nik}
                     placeholder='6301080809160001'
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
-                </Grid>
+                </Grid> */}
 
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <CustomTextField
                     fullWidth
                     label={<span>Tempat dan Tanggal Lahir</span>}
@@ -328,6 +382,9 @@ const TabAccount = () => {
                     value={birth_place_date}
                     onChange={e => setBirthPlaceDate(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -339,8 +396,11 @@ const TabAccount = () => {
                     value={school}
                     onChange={e => setSchool(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
                   <CustomTextField
                     fullWidth
@@ -350,6 +410,9 @@ const TabAccount = () => {
                     value={nisn}
                     onChange={e => setNisn(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -361,9 +424,12 @@ const TabAccount = () => {
                     value={birth_cert_no}
                     onChange={e => setBirthCertNo(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <CustomTextField
                     fullWidth
                     label={<span>Agama</span>}
@@ -372,9 +438,12 @@ const TabAccount = () => {
                     value={religion}
                     onChange={e => setReligion(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   ></CustomTextField>
-                </Grid>
-                <Grid item xs={12}>
+                </Grid> */}
+                {/* <Grid item xs={12}>
                   <CustomTextField
                     fullWidth
                     label={<span>Alamat Tempat Tinggal</span>}
@@ -383,8 +452,11 @@ const TabAccount = () => {
                     value={address}
                     onChange={e => setAddress(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={6}>
                   <CustomTextField
                     fullWidth
@@ -402,6 +474,9 @@ const TabAccount = () => {
                       setRt(e.target.value) // Set the RT value
                     }}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -421,6 +496,9 @@ const TabAccount = () => {
                       setRw(e.target.value) // Set the RW value
                     }}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
 
@@ -433,6 +511,9 @@ const TabAccount = () => {
                     value={dusun}
                     onChange={e => setDusun(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -444,9 +525,12 @@ const TabAccount = () => {
                     value={kecamatan}
                     onChange={e => setKecamatan(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
-
+                {/* 
                 <Grid item xs={12}>
                   <CustomTextField
                     fullWidth
@@ -456,8 +540,11 @@ const TabAccount = () => {
                     value={transportation}
                     onChange={e => setTransportation(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   ></CustomTextField>
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12}>
                   <CustomTextField
@@ -467,6 +554,9 @@ const TabAccount = () => {
                     placeholder='122-123-4512-7890'
                     value={phone}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
 
@@ -476,6 +566,34 @@ const TabAccount = () => {
                     label='Tanggal Lahir'
                     value={formatDate(birth_date)}
                     placeholder='YYYY-MM-DD'
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    fullWidth
+                    label={<span>Penerima KPS?</span>}
+                    name='Penerima KPS'
+                    placeholder='Penerima KPS?'
+                    value={kpsReceiver}
+                    onChange={e => setKpsReceiver(e.target.value)}
+                    required
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    fullWidth
+                    label={<span>No Kps</span>}
+                    name='NO KPS'
+                    placeholder='NO KPS'
+                    value={kpsNumber}
+                    onChange={e => setKpsNumber(e.target.value)}
+                    required
                     InputProps={{
                       readOnly: true
                     }}
@@ -499,6 +617,9 @@ const TabAccount = () => {
                     required
                     value={fatherName}
                     onChange={e => setFatherName(e.target.value)}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -516,6 +637,9 @@ const TabAccount = () => {
                       }
                     }}
                     inputProps={{ maxLength: 112 }}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -532,7 +656,10 @@ const TabAccount = () => {
                         setFatherBirthYear(value)
                       }
                     }}
-                    inputProps={{ maxLength: 4 }} // Batas panjang maksimal 4 karakter
+                    inputProps={{ maxLength: 4 }}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -544,6 +671,9 @@ const TabAccount = () => {
                     required
                     value={fatherEducation}
                     onChange={e => setFatherEducation(e.target.value)}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   ></CustomTextField>
                 </Grid>
                 <Grid item xs={12}>
@@ -558,6 +688,9 @@ const TabAccount = () => {
                       const rawValue = e.target.value.replace(/[^0-9]/g, '')
                       setFatherIncome(formatRupiah(rawValue))
                     }}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -569,6 +702,9 @@ const TabAccount = () => {
                     required
                     value={fatherJob}
                     onChange={e => setFatherJob(e.target.value)}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   ></CustomTextField>
                 </Grid>
               </Grid>
@@ -589,6 +725,9 @@ const TabAccount = () => {
                     value={motherName}
                     onChange={e => setMotherName(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -606,6 +745,9 @@ const TabAccount = () => {
                     }}
                     inputProps={{ maxLength: 112 }}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -623,6 +765,9 @@ const TabAccount = () => {
                     }}
                     inputProps={{ maxLength: 4 }} // Batas panjang maksimal 4 karakter
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -634,6 +779,9 @@ const TabAccount = () => {
                     value={motherEducation}
                     onChange={e => setMotherEducation(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   ></CustomTextField>
                 </Grid>
                 <Grid item xs={12}>
@@ -645,6 +793,9 @@ const TabAccount = () => {
                     value={motherJob}
                     onChange={e => setMotherJob(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   ></CustomTextField>
                 </Grid>
                 <Grid item xs={12}>
@@ -659,6 +810,9 @@ const TabAccount = () => {
                       setMotherIncome(formatRupiah(rawValue))
                     }}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -679,6 +833,9 @@ const TabAccount = () => {
                     placeholder='Masukkan Nama Wali'
                     value={guardianName}
                     onChange={e => setGuardianName(e.target.value)}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
 
@@ -697,6 +854,9 @@ const TabAccount = () => {
                       }
                     }}
                     inputProps={{ maxLength: 112 }}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
 
@@ -714,7 +874,10 @@ const TabAccount = () => {
                         setGuardianBirthYear(value)
                       }
                     }}
-                    inputProps={{ maxLength: 4 }} // Batas panjang maksimal 4 karakter
+                    inputProps={{ maxLength: 4 }}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
 
@@ -727,6 +890,9 @@ const TabAccount = () => {
                     placeholder='Pilih Pendidikan Terakhir'
                     value={guardianEducation}
                     onChange={e => setGuardianEducation(e.target.value)}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   ></CustomTextField>
                 </Grid>
 
@@ -739,6 +905,9 @@ const TabAccount = () => {
                     placeholder='Pilih Pekerjaan'
                     value={guardianJob}
                     onChange={e => setGuardianJob(e.target.value)}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   ></CustomTextField>
                 </Grid>
 
@@ -753,6 +922,9 @@ const TabAccount = () => {
                     onInput={(e: any) => {
                       const rawValue = e.target.value.replace(/[^0-9]/g, '')
                       setGuardianIncome(formatRupiah(rawValue))
+                    }}
+                    InputProps={{
+                      readOnly: true
                     }}
                   />
                 </Grid>
@@ -777,6 +949,9 @@ const TabAccount = () => {
                       setHomePhone(value) // Update the state with the cleaned value
                     }}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
 
@@ -796,6 +971,9 @@ const TabAccount = () => {
                       setMobilePhone(value) // Update the state with the cleaned and formatted value
                     }}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
 
@@ -809,6 +987,9 @@ const TabAccount = () => {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -830,6 +1011,9 @@ const TabAccount = () => {
                     value={height}
                     onChange={e => setHeight(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
 
@@ -844,6 +1028,9 @@ const TabAccount = () => {
                     value={weight}
                     onChange={e => setWeight(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
 
@@ -872,6 +1059,9 @@ const TabAccount = () => {
                     value={distanceInKm}
                     onChange={e => setDistanceInKm(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
 
@@ -886,6 +1076,9 @@ const TabAccount = () => {
                     value={siblings}
                     onChange={e => setSiblings(e.target.value)}
                     required
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Grid>
 
@@ -909,6 +1102,9 @@ const TabAccount = () => {
                           setTravelHours(value.toString())
                         }}
                         required
+                        InputProps={{
+                          readOnly: true
+                        }}
                       />
                     </Grid>
                     <Grid item xs={6}>
@@ -927,6 +1123,9 @@ const TabAccount = () => {
                           setTravelMinutes(value.toString())
                         }}
                         required
+                        InputProps={{
+                          readOnly: true
+                        }}
                       />
                     </Grid>
                   </Grid>
@@ -948,31 +1147,31 @@ const TabAccount = () => {
                     src={`${urlImage}${kartuKeluarga}`}
                     style={{ width: '100%', maxWidth: '100px', marginTop: '10px', cursor: 'pointer' }}
                     onClick={() => handleClickOpen(`${urlImage}${kartuKeluarga}`)}
-                    alt='Kartu Keluarga'
+                    alt=''
                   />
                 </Grid>
 
                 <Grid item xs={12} sm={3}>
                   <Typography variant='subtitle1' sx={{ fontWeight: 300 }}>
-                    Akte Lahir
+                    Akte Lahir/Ktp
                   </Typography>
                   <img
                     src={`${urlImage}${akteLahir}`}
                     style={{ width: '100%', maxWidth: '100px', marginTop: '10px', cursor: 'pointer' }}
                     onClick={() => handleClickOpen(`${urlImage}${akteLahir}`)}
-                    alt='Akte Lahir'
+                    alt=''
                   />
                 </Grid>
 
                 <Grid item xs={12} sm={3}>
                   <Typography variant='subtitle1' sx={{ fontWeight: 300 }}>
-                    KTP Orangtua
+                    Pas Foto siswa
                   </Typography>
                   <img
-                    src={`${urlImage}${ktpOrangtua}`}
+                    src={`${urlImage}${passFotoSiswa}`}
                     style={{ width: '100%', maxWidth: '100px', marginTop: '10px', cursor: 'pointer' }}
-                    onClick={() => handleClickOpen(`${urlImage}${ktpOrangtua}`)}
-                    alt='KTP Orangtua'
+                    onClick={() => handleClickOpen(`${urlImage}${passFotoSiswa}`)}
+                    alt=''
                   />
                 </Grid>
 
@@ -984,7 +1183,161 @@ const TabAccount = () => {
                     src={`${urlImage}${ijasah}`}
                     style={{ width: '100%', maxWidth: '100px', marginTop: '10px', cursor: 'pointer' }}
                     onClick={() => handleClickOpen(`${urlImage}${ijasah}`)}
-                    alt='Ijazah'
+                    alt=''
+                  />
+                </Grid>
+              </Grid>
+              <Box m={1} display='inline'></Box>
+
+              <Typography variant='body1' sx={{ fontWeight: 600 }}>
+                H. Riwayat Pendidikan
+              </Typography>
+              <Box m={1} display='inline'></Box>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    fullWidth
+                    label='Jenis Pendaftar'
+                    name='siblings'
+                    placeholder='Masukkan Jenis Pendaftar'
+                    type='text'
+                    value={registrantType}
+                    onChange={e => setRegistrantType(e.target.value)}
+                    required
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    fullWidth
+                    label='Penempatan (Jurusan)'
+                    name='siblings'
+                    placeholder='Penempatan (Jurusan)'
+                    type='text'
+                    value={placement}
+                    onChange={e => setRegistrantType(e.target.value)}
+                    required
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    fullWidth
+                    label='Pendidikan Terakhir'
+                    name='siblings'
+                    placeholder='Pendidikan Terakhir'
+                    type='text'
+                    value={lastEducation}
+                    onChange={e => setRegistrantType(e.target.value)}
+                    required
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    fullWidth
+                    label='Tahun Lulus'
+                    name='siblings'
+                    placeholder='Tahun Lulus'
+                    type='text'
+                    value={graduationYear}
+                    onChange={e => setRegistrantType(e.target.value)}
+                    required
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    fullWidth
+                    label='Asal Sekolah'
+                    name='siblings'
+                    placeholder='Asal Sekolah'
+                    type='text'
+                    value={schoolOrigin}
+                    onChange={e => setRegistrantType(e.target.value)}
+                    required
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    fullWidth
+                    label='Pernah Lanjut ke Jenjang Selanjutnya'
+                    name='siblings'
+                    placeholder='Pernah Lanjut ke Jenjang Selanjutnya'
+                    type='text'
+                    value={continuedStudy}
+                    onChange={e => setContinuedStudy(e.target.value)}
+                    required
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    fullWidth
+                    label='Kelas Terakhir'
+                    name='siblings'
+                    placeholder='Kelas Terakhir'
+                    type='text'
+                    value={lastClass}
+                    onChange={e => setLastClass(e.target.value)}
+                    required
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    fullWidth
+                    label='Nama Sekolah Terakhir'
+                    name='siblings'
+                    placeholder='Nama Sekolah Terakhir'
+                    type='text'
+                    value={lastSchoolName}
+                    onChange={e => setLastSchoolName(e.target.value)}
+                    required
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <CustomTextField
+                    fullWidth
+                    label='Tahun Keluar/Mutasi'
+                    name='siblings'
+                    placeholder='Tahun Keluar/Mutasi'
+                    type='text'
+                    value={graduationYearFromLastSchool}
+                    onChange={e => setGraduationYearFromLastSchool(e.target.value)}
+                    required
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                  <Typography variant='subtitle1' sx={{ fontWeight: 300 }}>
+                    Rapor
+                  </Typography>
+                  <img
+                    src={`${urlImage}${rapor}`}
+                    style={{ width: '100%', maxWidth: '100px', marginTop: '10px', cursor: 'pointer' }}
+                    onClick={() => handleClickOpen(`${urlImage}${rapor}`)}
+                    alt=''
                   />
                 </Grid>
               </Grid>

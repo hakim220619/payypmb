@@ -101,8 +101,6 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
   const [lastClass, setLastClass] = useState('')
   const [lastSchoolName, setLastSchoolName] = useState('')
   const [graduationYearFromLastSchool, setGraduationYearFromLastSchool] = useState('')
-  const [reportCard, setReportCard] = useState(null) // For file upload
-  console.log(reportCard)
 
   // Options for Pendidikan Terakhir (Last Education)
 
@@ -111,11 +109,17 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
   const [akteLahir, setAkteLahir] = useState<File>()
   const [ktpOrangtua, setKtpOrangtua] = useState<File>()
   const [ijasah, setIjasah] = useState<File>()
+  const [rapor, setRapor] = useState<File>()
+  const [passFotoSiswa, setPassFotoSiswa] = useState<File>()
 
   const [isUpdate, setIsUpdate] = useState(false) // State to toggle between Save and Update
 
   const [openDialog, setOpenDialog] = useState(false)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
+
+  const handleChange = (event: any) => {
+    setKpsReceiver(event.target.value)
+  }
 
   useEffect(() => {
     axiosConfig
@@ -171,7 +175,18 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
           kartu_keluarga,
           akte_lahir,
           ktp_orangtua,
-          ijasah
+          ijasah,
+          rapor,
+          passFotoSiswa,
+          registrantType,
+          placement,
+          lastEducation,
+          graduationYear,
+          schoolOrigin,
+          continuedStudy,
+          lastClass,
+          lastSchoolName,
+          graduationYearFromLastSchool
         } = response.data
         setNickName(nick_name)
         setGender(gender)
@@ -227,6 +242,18 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
         setAkteLahir(akte_lahir)
         setKtpOrangtua(ktp_orangtua)
         setIjasah(ijasah)
+
+        setRapor(rapor)
+        setPassFotoSiswa(passFotoSiswa)
+        setRegistrantType(registrantType)
+        setPlacement(placement)
+        setLastEducation(lastEducation)
+        setGraduationYear(graduationYear)
+        setSchoolOrigin(schoolOrigin)
+        setContinuedStudy(continuedStudy)
+        setLastClass(lastClass)
+        setLastSchoolName(lastSchoolName)
+        setGraduationYearFromLastSchool(graduationYearFromLastSchool)
       })
       .catch(error => {
         console.error('Error fetching details:', error)
@@ -290,7 +317,6 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
     { value: 'pasca_sarjana', label: 'Pasca Sarjana' },
     { value: 'lainnya', label: 'Lainnya' }
   ]
-
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
@@ -298,12 +324,13 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
     setIsUpdate(true) // Show Update button
     const formData = new FormData()
 
-    // Append basic student data
+    // Append basic student datastudentData
     formData.append('fullName', fullName || '')
     formData.append('id', id || '')
     formData.append('kpsReceiver', kpsReceiver)
     formData.append('nick_name', nick_name)
     formData.append('gender', gender)
+
     formData.append('birth_place_date', birth_place_date)
     formData.append('school', school)
     formData.append('nisn', nisn)
@@ -365,6 +392,18 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
     if (ktpOrangtua) formData.append('ktpOrangtua', ktpOrangtua)
     if (ijasah) formData.append('ijasah', ijasah)
 
+    formData.append('registrantType', registrantType)
+    formData.append('placement', placement)
+    formData.append('lastEducation', lastEducation)
+    formData.append('graduationYear', graduationYear)
+    formData.append('schoolOrigin', schoolOrigin)
+    formData.append('continuedStudy', continuedStudy)
+    formData.append('lastClass', lastClass)
+    formData.append('lastSchoolName', lastSchoolName)
+    formData.append('graduationYearFromLastSchool', graduationYearFromLastSchool)
+    if (rapor) formData.append('rapor', rapor)
+    if (passFotoSiswa) formData.append('passFotoSiswa', passFotoSiswa)
+
     axiosConfig
       .post('/sendDataSiswaBaruAll', formData, {
         headers: {
@@ -398,9 +437,6 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
     setIsUpdate(false) // Hide the Update button
   }
 
-  const handleChange = (event: any) => {
-    setKpsReceiver(event.target.value)
-  }
   const renderUploadedFile = (file: File | null) => {
     const existingFilePath = ''
 
@@ -435,10 +471,11 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
     setOpenDialog(false)
     setSelectedImage(null)
   }
-  const handleFileChange = (event: any) => {
-    const file = event.target.files[0]
-    setReportCard(file)
-  }
+
+  // const handleFileChange = (event: any) => {
+  //   const file = event.target.files[0]
+  //   setReportCard(file)
+  // }
 
   return (
     <Card>
@@ -1261,7 +1298,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                           <span style={{ color: 'red' }}> (Max 500kb)</span>
                         </>
                       }
-                      name='ktpOrangtua'
+                      name='passFotoSiswa'
                       type='file'
                       onChange={e => {
                         const file = (e.target as HTMLInputElement).files?.[0]
@@ -1274,20 +1311,20 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                               icon: 'warning',
                               confirmButtonText: 'OK'
                             })
-                            setKtpOrangtua(ktpOrangtua) // Reset nilai file jika terlalu besar
+                            setPassFotoSiswa(passFotoSiswa) // Reset nilai file jika terlalu besar
                           } else {
-                            setKtpOrangtua(file)
+                            setPassFotoSiswa(file)
                           }
                         }
                       }}
                     />
-                    {ktpOrangtua && (
+                    {passFotoSiswa && (
                       <>
-                        {renderUploadedFile(ktpOrangtua as any)}
+                        {renderUploadedFile(passFotoSiswa as any)}
                         <img
-                          src={`${urlImage}${ktpOrangtua}`}
+                          src={`${urlImage}${passFotoSiswa}`}
                           style={{ width: '100px', marginTop: '10px', cursor: 'pointer' }}
-                          onClick={() => handleClickOpen(`${urlImage}${ktpOrangtua}`)}
+                          onClick={() => handleClickOpen(`${urlImage}${passFotoSiswa}`)}
                           alt='KTP Orangtua'
                         />
                       </>
@@ -1357,15 +1394,15 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                       value={registrantType} // Changed value to reflect the new state variable
                       onChange={e => setRegistrantType(e.target.value)} // Updated the onChange handler
                     >
-                      <MenuItem key='new_student' value='new_student'>
+                      <MenuItem key='Siswa Baru' value='Siswa Baru'>
                         Siswa Baru
                       </MenuItem>
-                      <MenuItem key='transfer' value='transfer'>
+                      <MenuItem key='Pindahan' value='Pindahan'>
                         Pindahan
                       </MenuItem>
                     </CustomTextField>
                   </Grid>
-                  <Grid item xs={12} sm={6} md={4}>
+                  <Grid item xs={12} sm={6} md={6}>
                     <CustomTextField
                       fullWidth
                       label='Penempatan (Jurusan)'
@@ -1378,7 +1415,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                   </Grid>
 
                   {/* Pendidikan Terakhir */}
-                  <Grid item xs={12} sm={6} md={4}>
+                  <Grid item xs={12} sm={6} md={6}>
                     <CustomTextField
                       fullWidth
                       label='Pendidikan Terakhir'
@@ -1398,7 +1435,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                   </Grid>
 
                   {/* Tahun Lulus */}
-                  <Grid item xs={12} sm={6} md={4}>
+                  <Grid item xs={12} sm={6} md={6}>
                     <CustomTextField
                       fullWidth
                       label='Tahun Lulus'
@@ -1411,7 +1448,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                   </Grid>
 
                   {/* Asal Sekolah */}
-                  <Grid item xs={12} sm={6} md={4}>
+                  <Grid item xs={12} sm={6} md={6}>
                     <CustomTextField
                       fullWidth
                       label='Asal Sekolah'
@@ -1424,7 +1461,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                   </Grid>
 
                   {/* Jika Pernah Lanjut ke Jenjang Selanjutnya */}
-                  <Grid item xs={12} sm={6} md={4}>
+                  <Grid item xs={12} sm={6} md={6}>
                     <CustomTextField
                       fullWidth
                       label='Jika Pernah Lanjut ke Jenjang Selanjutnya'
@@ -1435,18 +1472,18 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                       value={continuedStudy}
                       onChange={e => setContinuedStudy(e.target.value)}
                     >
-                      <MenuItem key='yes' value='yes'>
+                      <MenuItem key='yes' value='ya'>
                         Ya
                       </MenuItem>
-                      <MenuItem key='no' value='no'>
+                      <MenuItem key='no' value='tidak'>
                         Tidak
                       </MenuItem>
                     </CustomTextField>
                   </Grid>
-                  {continuedStudy === 'yes' && (
+                  {continuedStudy === 'ya' && (
                     <>
                       {/* Kelas Terakhir */}
-                      <Grid item xs={12} sm={6} md={4}>
+                      <Grid item xs={12} sm={6} md={6}>
                         <CustomTextField
                           fullWidth
                           label='Kelas Terakhir'
@@ -1458,7 +1495,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                       </Grid>
 
                       {/* Nama Sekolah Terakhir */}
-                      <Grid item xs={12} sm={6} md={4}>
+                      <Grid item xs={12} sm={6} md={6}>
                         <CustomTextField
                           fullWidth
                           label='Nama Sekolah Terakhir'
@@ -1470,7 +1507,7 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                       </Grid>
 
                       {/* Tahun Keluar / Mutasi */}
-                      <Grid item xs={12} sm={6} md={4}>
+                      <Grid item xs={12} sm={6} md={6}>
                         <CustomTextField
                           fullWidth
                           label='Tahun Keluar/Mutasi'
@@ -1482,15 +1519,46 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
                       </Grid>
 
                       {/* Upload Rapor */}
-                      <Grid item xs={12} sm={6} md={4}>
+                      <Grid item xs={12} sm={6} md={6} lg={6}>
                         <CustomTextField
                           fullWidth
-                          label='Upload Rapor'
-                          name='reportCard'
+                          label={
+                            <>
+                              <span>Upload Rapor</span>
+                              <span style={{ color: 'red' }}> (Max 500kb)</span>
+                            </>
+                          }
+                          name='rapor'
                           type='file'
-                          inputProps={{ accept: '.pdf,.jpg,.png' }}
-                          onChange={handleFileChange}
+                          onChange={e => {
+                            const file = (e.target as HTMLInputElement).files?.[0]
+                            if (file) {
+                              if (file.size > 500 * 1024) {
+                                // Ukuran file lebih dari 500KB
+                                Swal.fire({
+                                  title: 'Ukuran File Terlalu Besar!',
+                                  text: 'Ukuran file tidak boleh lebih dari 500 KB. Silakan unggah file yang lebih kecil.',
+                                  icon: 'warning',
+                                  confirmButtonText: 'OK'
+                                })
+                                setRapor(rapor) // Reset nilai file jika terlalu besar
+                              } else {
+                                setRapor(file)
+                              }
+                            }
+                          }}
                         />
+                        {rapor && (
+                          <>
+                            {renderUploadedFile(rapor as any)}
+                            <img
+                              src={`${urlImage}${rapor}`}
+                              style={{ width: '100px', marginTop: '10px', cursor: 'pointer' }}
+                              onClick={() => handleClickOpen(`${urlImage}${rapor}`)}
+                              alt='Ijazah'
+                            />
+                          </>
+                        )}
                       </Grid>
                     </>
                   )}
@@ -1500,21 +1568,21 @@ const LengkapiDataSiswaBaruYpbm: React.FC<Props> = ({ token, dataAll }) => {
           </Grid>
         </CardContent>
 
-        <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <CardActions sx={{ display: 'flex', justifyContent: 'stretch' }}>
           {!isUpdate ? (
-            <Button onClick={(e: any) => handleFormSubmit(e)} sx={{ mr: 2 }} variant='contained' color='error'>
-              Simpan
+            <Button onClick={(e: any) => handleFormSubmit(e)} sx={{ flexGrow: 1 }} variant='contained' color='error'>
+              Simpan Data
             </Button>
           ) : (
             <Button
               onClick={(e: any) => {
-                handleFormSubmit(e), handleUpdateClick
+                handleFormSubmit(e), handleUpdateClick()
               }}
-              sx={{ mr: 2 }}
+              sx={{ flexGrow: 1 }}
               variant='contained'
               color='primary'
             >
-              Update
+              Simpan Data
             </Button>
           )}
         </CardActions>

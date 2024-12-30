@@ -132,7 +132,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               <MenuItem onClick={handleLogout}>
-                <Typography textAlign='center'>Logout</Typography>
+                <Typography textAlign='center'>Keluar</Typography>
               </MenuItem>
             </Menu>
           </Box>

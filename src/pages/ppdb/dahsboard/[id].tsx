@@ -17,6 +17,7 @@ import { useRouter } from 'next/router'
 import StepperCustomHorizontal from './steep'
 import Icon from 'src/@core/components/icon'
 import { Stack } from '@mui/system'
+import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Styled Components
 const SuccessText = styled('span')(({ theme }) => ({
@@ -30,6 +31,7 @@ const DashboardByTokenSiswa = () => {
   const [loading, setLoading] = useState<boolean>(true) // Tambahkan state loading
   const router = useRouter()
   const { id } = router.query
+  const [showContent, setShowContent] = useState<boolean>(false)
 
   useEffect(() => {
     setLoading(true) // Mulai loading saat data sedang diambil
@@ -53,14 +55,36 @@ const DashboardByTokenSiswa = () => {
         console.error('Error fetching details:', error)
       })
       .finally(() => {
-        setLoading(false) // Set loading selesai
+        setTimeout(() => {
+          setLoading(false)
+          setShowContent(true)
+        }, 1000) // Delay of 1 second
       })
   }, [id])
 
   if (loading) {
-    return <Typography>Loading...</Typography> // Tampilkan indikator loading
+    return (
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 9999
+        }}
+      >
+        <CircularProgress color='primary' />
+      </Box>
+    )
   }
-
+  if (!showContent) {
+    return null // Wait until showContent is true to render the content
+  }
   if (!dataAll) {
     return <Typography>Data tidak ditemukan.</Typography> // Tangani kasus data tidak tersedia
   }
